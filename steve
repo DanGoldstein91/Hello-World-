@@ -1,0 +1,133 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication28
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool exitProgram;
+
+            do 
+            {
+                exitProgram = false;
+                Console.WriteLine("****** Milk Quota System ******");
+                Console.WriteLine("1. Enter Monthly Milk Production in litres (12 months):");
+                Console.WriteLine("2. Display Years Total Milk Production");
+                Console.WriteLine("3. Display whether Yearly Milk Production falls within Milk Quota for the year");
+                Console.WriteLine("4. Exit");
+                Console.WriteLine();
+                Console.Write("Please Enter an Option: ");
+                int menuSelect = int.Parse(Console.ReadLine());
+
+                switch (menuSelect)
+                {
+                    case 1: 
+                        { 
+                            enterMonthlyMilkProduction();
+                            break;
+                        }
+                    case 2:
+                        {
+                            getTotalProduction();
+                            break;
+                        }
+                    case 3:
+                        {
+                            compareMilkQuota();
+                            break;
+                        }
+                    case 4:
+                        {
+                            exitProgram = true;
+                            Console.WriteLine("Thank you for using the Milk Quota System");
+                            break;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Error! Invalid input");
+                            break;
+                        }
+                }
+            }while (exitProgram == false);
+
+        }
+
+        public static int[] arr = new int[12];
+        public static bool arrayPopulated = false;
+        public static int sumOfArr;
+
+        //Option 1
+        public static void enterMonthlyMilkProduction()
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                Console.Write("Enter Month [{0}] Milk Production (litres):", i);
+                arr[i] = int.Parse(Console.ReadLine());
+            }
+
+
+
+            if (arr[0] >= 1 && arr[1] >= 1 && arr[2] >= 0 && arr[3] > 0 && arr[4] >= 1 && arr[5] >= 1 &&
+                arr[6] >= 1 && arr[7] >= 1 && arr[8] >= 1 && arr[9] >= 1 && arr[10] >= 1 && arr[11] >= 1)
+            {
+                arrayPopulated = true;
+                sumOfArr = arr.Sum();
+            }
+        }
+        //Option 2
+        public static void getTotalProduction()
+        {
+            if (arrayPopulated == true)
+            {
+
+                Console.WriteLine("Your Total Yearly Milk Production is: {0} litres",sumOfArr.ToString("N2"));
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("No Monthly Milk Production values have been entered; \nplease enter the details via Option 1\n");
+            }
+        }
+      
+        //Option 3
+        public static void compareMilkQuota()
+        {
+            if (arrayPopulated == true)
+            {
+                int milkQuota;
+                
+                Console.Write("Please enter yearly Milk Quota (in litres)");
+                milkQuota = int.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Your Yearly Milk Quota is {0}",milkQuota);
+                Console.WriteLine();
+                Console.WriteLine("Your Total Yearly Milk Production is {0}", sumOfArr.ToString("N2"));
+                Console.WriteLine();
+                
+                if (sumOfArr > milkQuota)
+                {
+                    Console.WriteLine("Your Milk Production is greater than your Milk Quota and you will be subject to a levy");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Your Milk Production is less than your Milk Quota and you will NOT be subject to a levy");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("No Monthly Milk Production values have been entered; \nplease enter the details via Option 1 \n");
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+//how to use a bool to check array value? My workaround is to check if any 1 value is 0
+//how to put array as a parameter like instructions say?
